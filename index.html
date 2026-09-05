@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Fredelly Calò — Sviluppo web, reti e cybersecurity · Lodi</title>
+<meta name="description" content="Fredelly Calò, 20 anni, Lodi. Diplomato in Informatica e Telecomunicazioni, studente di Cybersecurity. In cerca di un part-time o di lavori su chiamata: disponibile subito, massima flessibilità." />
+<meta name="theme-color" content="#0A1B2E" />
+
+<!-- Open Graph -->
+<meta property="og:type" content="website" />
+<meta property="og:title" content="Fredelly Calò — Sviluppo web, reti e cybersecurity" />
+<meta property="og:description" content="20 anni, Lodi. Informatica e Telecomunicazioni, università in Cybersecurity. In cerca di part-time o lavori su chiamata." />
+<meta property="og:locale" content="it_IT" />
+
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%230A1B2E'/%3E%3Cpath d='M8 23V9h13M8 16h10' stroke='%23FF5A1F' stroke-width='2.6' fill='none'/%3E%3C/svg%3E" />
+
+<!-- Font: display geometrico + sans tecnico + mono per le annotazioni da disegno tecnico -->
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=Archivo+Black&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+<!-- Barra di avanzamento lettura -->
+<div class="progress" aria-hidden="true"><span id="progressBar"></span></div>
+
+<!-- Mirino da disegno tecnico che segue il mouse (solo desktop, creato via JS) -->
+<div class="cursor" id="cursor" aria-hidden="true">
+  <span class="cursor__h"></span>
+  <span class="cursor__v"></span>
+  <span class="cursor__ring"></span>
+  <span class="cursor__xy" id="cursorXY">x:000 y:000</span>
+</div>
+
+<!-- ============ NAV ============ -->
+<header class="topbar" id="topbar">
+  <a class="topbar__id" href="#hero">
+    <span class="topbar__mark" aria-hidden="true">
+      <svg viewBox="0 0 32 32" width="26" height="26"><path d="M8 24V8h14M8 16h11" fill="none" stroke="currentColor" stroke-width="2.6"/></svg>
+    </span>
+    <span class="topbar__name">Fredelly Calò</span>
+  </a>
+
+  <nav class="topbar__nav" aria-label="Navigazione principale">
+    <a href="#chi-sono"><em>01</em> Chi sono</a>
+    <a href="#percorso"><em>02</em> Percorso</a>
+    <a href="#competenze"><em>03</em> Competenze</a>
+    <a href="#esperienza"><em>04</em> Esperienza</a>
+    <a href="#lingue"><em>05</em> Lingue</a>
+  </nav>
+
+  <a class="btn btn--sm btn--solid topbar__cta magnetic" href="#contatti">Contattami</a>
+</header>
+
+<main>
+
+<!-- ============ 00 · HERO (fondo scuro: massimo contrasto all'apertura) ============ -->
+<section class="hero" id="hero">
+  <div class="hero__grid" aria-hidden="true"></div>
+  <div class="hero__glow" aria-hidden="true"></div>
+
+  <div class="wrap hero__inner">
+
+    <div class="hero__text">
+      <p class="tag">
+        <span class="dot" aria-hidden="true"></span>
+        In cerca di lavoro · disponibile subito
+      </p>
+
+      <!-- Il nome viene diviso in lettere da script.js per l'animazione d'ingresso -->
+      <h1 class="hero__name" data-split>Fredelly<br>Calò<span class="dotmark">.</span></h1>
+
+      <p class="hero__role" aria-label="Aree: sviluppo web, reti e sicurezza, cybersecurity, lavoro con il pubblico">
+        <span class="hero__role-k">focus</span>
+        <span class="typed" id="typed"></span><span class="caret" aria-hidden="true"></span>
+      </p>
+
+      <p class="hero__lead reveal" data-delay="1">
+        20 anni, Lodi. Diplomato in <strong>Informatica e Telecomunicazioni</strong>,
+        studente di <strong>Cybersecurity</strong>. Costruisco siti web, smonto e rimonto hardware,
+        capisco le reti — e gioco a calcio agonistico.
+        <span class="hl">Cerco un part-time o un lavoro su chiamata: puntuale, affidabile, flessibile sugli orari.</span>
+      </p>
+
+      <div class="hero__cta reveal" data-delay="2">
+        <a class="btn btn--solid magnetic" href="#contatti">Scrivimi due righe</a>
+        <a class="btn btn--ghost magnetic" href="#percorso">Guarda il percorso</a>
+      </div>
+
+      <!-- Numeri reali, nessuna statistica inventata -->
+      <dl class="stats reveal" data-delay="3">
+        <div><dt>Base</dt><dd>Lodi (LO)</dd></div>
+        <div><dt>Diploma</dt><dd><span class="count" data-count="2026" data-plain>2026</span></dd></div>
+        <div><dt>Certificazioni</dt><dd><span class="count" data-count="4">4</span></dd></div>
+        <div><dt>Lingue</dt><dd><span class="count" data-count="3">3</span></dd></div>
+      </dl>
+    </div>
+
+    <!-- Signature: schema tecnico che si disegna all'apertura, con impulsi lungo le linee -->
+    <figure class="schematic" aria-labelledby="schematic-cap">
+      <svg id="blueprint" viewBox="0 0 420 460" role="img" aria-label="Schema tecnico delle quattro aree: sviluppo web, reti e sicurezza, lavoro con il pubblico, sport e disciplina">
+        <defs>
+          <pattern id="mesh" width="20" height="20" patternUnits="userSpaceOnUse">
+            <path d="M20 0H0V20" fill="none" stroke="currentColor" stroke-width=".5" opacity=".3"/>
+          </pattern>
+        </defs>
+
+        <rect x="12" y="12" width="396" height="436" fill="url(#mesh)" stroke="currentColor" stroke-width="1" opacity=".8"/>
+
+        <!-- quote laterali (stile disegno tecnico) -->
+        <g class="dim" stroke="currentColor" fill="none" stroke-width="1">
+          <path d="M28 40h14M35 40v380M28 420h14"/>
+        </g>
+        <text class="dim-t" x="46" y="234" transform="rotate(-90 46 234)">PROFILO / 2026</text>
+
+        <!-- nodo centrale -->
+        <g class="core">
+          <circle cx="230" cy="230" r="52" class="core__halo"/>
+          <circle cx="230" cy="230" r="42" class="core__ring"/>
+          <circle cx="230" cy="230" r="6" class="core__dot"/>
+          <text x="230" y="296" class="core__t">F.C.</text>
+        </g>
+
+        <!-- connessioni -->
+        <g class="wires" fill="none" stroke="currentColor" stroke-width="1.6">
+          <path d="M230 188V108h-72"/>
+          <path d="M272 222h84v-44"/>
+          <path d="M272 238h84v70"/>
+          <path d="M230 272v86h-72"/>
+        </g>
+        <!-- impulsi che scorrono sulle stesse traiettorie -->
+        <g class="pulses" fill="none" stroke-width="2.4" stroke-linecap="round">
+          <path d="M230 188V108h-72"/>
+          <path d="M272 222h84v-44"/>
+          <path d="M272 238h84v70"/>
+          <path d="M230 272v86h-72"/>
+        </g>
+
+        <g class="nodes">
+          <g class="node" data-node="1" transform="translate(72,88)">
+            <rect width="86" height="40" rx="3"/><text x="12" y="17">SVILUPPO</text><text x="12" y="31">WEB</text>
+          </g>
+          <g class="node" data-node="2" transform="translate(300,138)">
+            <rect width="86" height="40" rx="3"/><text x="12" y="17">RETI &amp;</text><text x="12" y="31">SICUREZZA</text>
+          </g>
+          <g class="node" data-node="3" transform="translate(300,308)">
+            <rect width="86" height="40" rx="3"/><text x="12" y="17">LAVORO</text><text x="12" y="31">SUL CAMPO</text>
+          </g>
+          <g class="node" data-node="4" transform="translate(72,338)">
+            <rect width="86" height="40" rx="3"/><text x="12" y="17">SPORT &amp;</text><text x="12" y="31">DISCIPLINA</text>
+          </g>
+        </g>
+
+        <text class="stamp" x="396" y="436" text-anchor="end">SCALA 1:1 · LODI, IT</text>
+      </svg>
+      <figcaption id="schematic-cap" class="schematic__cap">Fig. 01 — le quattro aree su cui sto costruendo il mio percorso</figcaption>
+    </figure>
+
+  </div>
+
+  <a class="scroll-hint" href="#chi-sono" aria-label="Vai alla sezione Chi sono">
+    <span>scorri</span>
+    <svg width="14" height="26" viewBox="0 0 14 26" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M7 0v22M1 16l6 7 6-7"/></svg>
+  </a>
+</section>
+
+<!-- ============ striscia scorrevole: le parole chiave del profilo ============ -->
+<div class="ticker" aria-hidden="true">
+  <div class="ticker__track">
+    <span>Python</span><i>◆</i><span>Reti &amp; protocolli</span><i>◆</i><span>HTML / CSS</span><i>◆</i><span>Database SQL</span><i>◆</i><span>Hardware</span><i>◆</i><span>Cybersecurity</span><i>◆</i><span>Affidabilità</span><i>◆</i>
+    <span>Python</span><i>◆</i><span>Reti &amp; protocolli</span><i>◆</i><span>HTML / CSS</span><i>◆</i><span>Database SQL</span><i>◆</i><span>Hardware</span><i>◆</i><span>Cybersecurity</span><i>◆</i><span>Affidabilità</span><i>◆</i>
+  </div>
+</div>
+
+<!-- ============ 01 · CHI SONO ============ -->
+<section class="section" id="chi-sono">
+  <div class="wrap">
+    <header class="shead reveal">
+      <span class="shead__num">01</span>
+      <h2 class="shead__title" data-scramble>Chi sono</h2>
+      <span class="shead__rule" aria-hidden="true"></span>
+    </header>
+
+    <div class="about">
+      <div class="about__text">
+        <p class="reveal lede">Mi chiamo Fredelly, ho 20 anni e vivo a Lodi. Mi sono diplomato in Informatica e Telecomunicazioni e sto proseguendo con l'università in Cybersecurity: è la direzione che voglio dare alla mia carriera.</p>
+        <p class="reveal" data-delay="1">In questo momento sto cercando lavoro. Nel frattempo non sono stato fermo: ho lavorato su chiamata come facchino e magazziniere per una società di eventi e ho fatto il cameriere in un ristorante di paese. Due lavori diversi che mi hanno insegnato la stessa cosa: la puntualità e la parola data valgono più di qualsiasi curriculum. Se dico che ci sono, ci sono — anche il sabato sera, anche all'ultimo momento.</p>
+        <p class="reveal" data-delay="2">Gioco a calcio agonistico in una squadra semi-professionistica e vado in palestra con costanza. Il calcio mi ha dato disciplina, spirito di sacrificio e l'abitudine a lavorare per un risultato che non è mai solo mio: in una squadra, come in un turno di lavoro, conta che il pezzo di cui ti occupi tu sia fatto bene.</p>
+        <p class="reveal" data-delay="3">Cerco un part-time o un lavoro su chiamata da conciliare con lo studio, e più avanti uno stage nel settore tech. Sono flessibile sugli orari, imparo in fretta e non ho problemi a sporcarmi le mani.</p>
+      </div>
+
+      <aside class="about__card reveal" data-delay="2">
+        <p class="card__label">Scheda rapida</p>
+        <ul class="speclist">
+          <li><span>Età</span><b>20 anni</b></li>
+          <li><span>Zona</span><b>Lodi, Italia</b></li>
+          <li><span>Studi</span><b>Cybersecurity</b></li>
+          <li><span>Cerco</span><b>Part-time / su chiamata</b></li>
+          <li><span>Orari</span><b>Massima flessibilità</b></li>
+          <li><span>Patente</span><b>In conseguimento</b></li>
+        </ul>
+        <a class="btn btn--ghost btn--full magnetic" href="#contatti">Parliamone</a>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 02 · PERCORSO ============ -->
+<section class="section section--alt" id="percorso">
+  <div class="wrap">
+    <header class="shead reveal">
+      <span class="shead__num">02</span>
+      <h2 class="shead__title" data-scramble>Percorso</h2>
+      <span class="shead__rule" aria-hidden="true"></span>
+    </header>
+
+    <ol class="timeline">
+      <li class="tl reveal">
+        <span class="tl__year">2026</span>
+        <div class="tl__body">
+          <h3>Diploma di Istruzione Secondaria Superiore</h3>
+          <p class="tl__meta">Informatica e Telecomunicazioni · IIS “A. Volta”, Lodi</p>
+          <p>Cinque anni tra programmazione, sistemi e reti, database e laboratorio hardware: le fondamenta su cui sto costruendo tutto il resto.</p>
+        </div>
+      </li>
+
+      <li class="tl reveal" data-delay="1">
+        <span class="tl__year">Cert.</span>
+        <div class="tl__body">
+          <h3>Certificazioni</h3>
+          <p class="tl__meta">Formazione tecnica extra-scolastica</p>
+          <ul class="certs">
+            <li><b>HTML</b><span>Sorint Hackersgen</span></li>
+            <li><b>CSS</b><span>Sorint Hackersgen</span></li>
+            <li><b>Sistemi e reti</b><span>Moduli Cisco</span></li>
+            <li><b>Chatbot intelligente</b><span>ARC Synthiam</span></li>
+          </ul>
+        </div>
+      </li>
+
+      <li class="tl reveal tl--next" data-delay="2">
+        <span class="tl__year">Ora</span>
+        <div class="tl__body">
+          <h3>Università in Cybersecurity</h3>
+          <p class="tl__meta">Corso di laurea · in corso</p>
+          <p>Il passo successivo: specializzarmi nella sicurezza informatica continuando a lavorare e ad allenarmi. Studio, lavoro e sport insieme — è già il mio ritmo.</p>
+        </div>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<!-- ============ 03 · COMPETENZE ============ -->
+<section class="section" id="competenze">
+  <div class="wrap">
+    <header class="shead reveal">
+      <span class="shead__num">03</span>
+      <h2 class="shead__title" data-scramble>Competenze</h2>
+      <span class="shead__rule" aria-hidden="true"></span>
+    </header>
+
+    <div class="filters reveal" role="group" aria-label="Filtra le competenze">
+      <button class="chip is-on" data-filter="all" aria-pressed="true">Tutte</button>
+      <button class="chip" data-filter="dev" aria-pressed="false">Sviluppo web</button>
+      <button class="chip" data-filter="net" aria-pressed="false">Reti e sicurezza</button>
+      <button class="chip" data-filter="tools" aria-pressed="false">Strumenti</button>
+      <button class="chip" data-filter="soft" aria-pressed="false">Soft skill</button>
+    </div>
+
+    <div class="skills" id="skillsGrid">
+      <article class="skill reveal" data-cat="dev">
+        <span class="skill__cat">Sviluppo web</span>
+        <h3>Siti web</h3>
+        <p>Costruisco siti da zero in HTML e CSS, con basi di sviluppo frontend e backend.</p>
+      </article>
+      <article class="skill reveal" data-cat="dev" data-delay="1">
+        <span class="skill__cat">Linguaggi</span>
+        <h3>Python</h3>
+        <p>Il linguaggio con cui me la cavo meglio: script, esercizi e piccoli progetti.</p>
+        <span class="lvl">buon livello</span>
+      </article>
+      <article class="skill reveal" data-cat="dev" data-delay="2">
+        <span class="skill__cat">Linguaggi</span>
+        <h3>Java · C++</h3>
+        <p>Basi solide di programmazione a oggetti e di logica, apprese durante il percorso scolastico.</p>
+        <span class="lvl">basi</span>
+      </article>
+      <article class="skill reveal" data-cat="dev" data-delay="3">
+        <span class="skill__cat">Dati</span>
+        <h3>Database SQL</h3>
+        <p>Progettazione e gestione di database relazionali, dalle tabelle alle query.</p>
+      </article>
+
+      <article class="skill reveal" data-cat="net">
+        <span class="skill__cat">Reti</span>
+        <h3>Reti e protocolli</h3>
+        <p>Funzionamento delle reti informatiche e dei protocolli di comunicazione, con moduli Cisco alle spalle.</p>
+      </article>
+      <article class="skill reveal" data-cat="net" data-delay="1">
+        <span class="skill__cat">Hardware</span>
+        <h3>Architettura hardware</h3>
+        <p>Montaggio, manutenzione e diagnostica delle macchine: so mettere le mani dentro un computer.</p>
+      </article>
+      <article class="skill reveal" data-cat="net" data-delay="2">
+        <span class="skill__cat">Sicurezza</span>
+        <h3>Cybersecurity</h3>
+        <p>L'area in cui mi sto specializzando all'università: è lì che voglio arrivare.</p>
+        <span class="lvl">in formazione</span>
+      </article>
+      <article class="skill reveal" data-cat="net" data-delay="3">
+        <span class="skill__cat">AI</span>
+        <h3>Chatbot</h3>
+        <p>Sviluppo di un chatbot intelligente con ARC Synthiam, dal progetto al funzionamento.</p>
+      </article>
+
+      <article class="skill reveal" data-cat="tools">
+        <span class="skill__cat">Strumenti</span>
+        <h3>Microsoft Office</h3>
+        <p>Word, Excel e PowerPoint per documenti, fogli di calcolo e presentazioni.</p>
+      </article>
+      <article class="skill reveal" data-cat="tools" data-delay="1">
+        <span class="skill__cat">Strumenti</span>
+        <h3>Google Workspace</h3>
+        <p>Documenti, fogli e calendari condivisi: lavoro in cloud senza perdere pezzi.</p>
+      </article>
+
+      <article class="skill reveal" data-cat="soft">
+        <span class="skill__cat">Soft skill</span>
+        <h3>Affidabilità</h3>
+        <p>Forte senso di responsabilità: prendo un impegno e lo porto a termine, anche quando è scomodo.</p>
+      </article>
+      <article class="skill reveal" data-cat="soft" data-delay="1">
+        <span class="skill__cat">Soft skill</span>
+        <h3>Spirito di squadra</h3>
+        <p>Anni di calcio agonistico: so stare in un gruppo, ascoltare e fare la mia parte.</p>
+      </article>
+      <article class="skill reveal" data-cat="soft" data-delay="2">
+        <span class="skill__cat">Soft skill</span>
+        <h3>Adattamento</h3>
+        <p>Turni, imprevisti, mansioni nuove: mi ambiento in fretta e non mi blocco.</p>
+      </article>
+      <article class="skill reveal" data-cat="soft" data-delay="3">
+        <span class="skill__cat">Soft skill</span>
+        <h3>Disciplina</h3>
+        <p>Allenamenti, studio e lavoro nella stessa settimana: la costanza è un'abitudine, non un talento.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 04 · ESPERIENZA ============ -->
+<section class="section section--alt" id="esperienza">
+  <div class="wrap">
+    <header class="shead reveal">
+      <span class="shead__num">04</span>
+      <h2 class="shead__title" data-scramble>Esperienza</h2>
+      <span class="shead__rule" aria-hidden="true"></span>
+    </header>
+
+    <p class="sintro reveal">Quello che ho già fatto — e quello che sto cercando adesso.</p>
+
+    <div class="jobs">
+      <article class="job reveal">
+        <div class="job__head">
+          <div>
+            <h3>Facchino / magazziniere</h3>
+            <p class="job__org">Tsunami Concerti — Milano</p>
+          </div>
+          <span class="badge">Su chiamata · esperienza precedente</span>
+        </div>
+        <ul class="tasks">
+          <li>Facchinaggio e allestimenti per eventi e concerti</li>
+          <li>Gestione del magazzino e movimentazione dei materiali</li>
+          <li>Pulizia di magazzini e piazzali</li>
+          <li>Deposito colli e bagagli durante gli eventi</li>
+          <li>Gestione autonoma di orari flessibili e turni variabili</li>
+        </ul>
+      </article>
+
+      <article class="job reveal" data-delay="1">
+        <div class="job__head">
+          <div>
+            <h3>Cameriere</h3>
+            <p class="job__org">Ristorante di paese — collaborazione</p>
+          </div>
+          <span class="badge">Sala ed eventi</span>
+        </div>
+        <ul class="tasks">
+          <li>Accoglienza dei clienti e mise en place</li>
+          <li>Gestione delle ordinazioni e servizio al tavolo</li>
+          <li>Consigli su piatti e vini</li>
+          <li>Gestione pagamenti: contanti, carta, contactless</li>
+          <li>Supporto durante eventi e buffet</li>
+          <li>Clienti stranieri seguiti in inglese e spagnolo</li>
+          <li>Rispetto delle norme igienico-sanitarie e di sicurezza</li>
+        </ul>
+      </article>
+
+      <article class="job job--open reveal" data-delay="2">
+        <div class="job__head">
+          <div>
+            <h3>Il prossimo posto</h3>
+            <p class="job__org">Disponibile subito — Lodi e Milano</p>
+          </div>
+          <span class="badge badge--live"><span class="dot" aria-hidden="true"></span> In cerca</span>
+        </div>
+        <ul class="tasks">
+          <li>Part-time, lavori su chiamata, weekend ed eventi</li>
+          <li>Sala, servizio al pubblico, magazzino, supporto operativo</li>
+          <li>Assistenza informatica, hardware e piccoli lavori web</li>
+          <li>Orari flessibili: mi organizzo tra università e allenamenti</li>
+          <li>Zona Lodi e Milano, raggiungibile con i mezzi</li>
+        </ul>
+        <a class="btn btn--solid btn--full magnetic" href="#contatti">Propongimi un lavoro</a>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 05 · LINGUE ============ -->
+<section class="section" id="lingue">
+  <div class="wrap">
+    <header class="shead reveal">
+      <span class="shead__num">05</span>
+      <h2 class="shead__title" data-scramble>Lingue</h2>
+      <span class="shead__rule" aria-hidden="true"></span>
+    </header>
+
+    <div class="langs">
+      <article class="lang reveal">
+        <h3>Italiano</h3>
+        <p class="lang__lvl">Madrelingua</p>
+        <div class="meter" role="img" aria-label="Italiano: madrelingua"><i style="--v:100%"></i></div>
+      </article>
+      <article class="lang reveal" data-delay="1">
+        <h3>Inglese</h3>
+        <p class="lang__lvl">B2</p>
+        <div class="meter" role="img" aria-label="Inglese: livello B2"><i style="--v:70%"></i></div>
+        <p class="lang__note">Ascolto, lettura, produzione e interazione orale, scrittura</p>
+      </article>
+      <article class="lang reveal" data-delay="2">
+        <h3>Spagnolo</h3>
+        <p class="lang__lvl">B1</p>
+        <div class="meter" role="img" aria-label="Spagnolo: livello B1"><i style="--v:50%"></i></div>
+        <p class="lang__note">Ascolto, lettura, produzione e interazione orale, scrittura</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 06 · CONTATTI ============ -->
+<section class="section contact" id="contatti">
+  <div class="contact__grid" aria-hidden="true"></div>
+  <div class="wrap">
+    <header class="shead shead--light reveal">
+      <span class="shead__num">06</span>
+      <h2 class="shead__title" data-scramble>Contatti</h2>
+      <span class="shead__rule" aria-hidden="true"></span>
+    </header>
+
+    <div class="contact__inner">
+      <div class="reveal">
+        <p class="contact__claim">Se cercate qualcuno di giovane, sveglio e <span class="hl hl--dark">su cui poter contare</span>, scrivetemi: rispondo sempre.</p>
+        <p class="contact__sub">Disponibile subito per part-time e lavori su chiamata in zona Lodi e Milano, con massima flessibilità di orario.</p>
+      </div>
+
+      <div class="contact__links reveal" data-delay="1">
+        <a class="ctline" href="mailto:freddycalo73@gmail.com">
+          <span class="ctline__k">Email</span>
+          <span class="ctline__v">freddycalo73@gmail.com</span>
+          <span class="ctline__arrow" aria-hidden="true">→</span>
+        </a>
+        <a class="ctline" href="tel:+393336191559">
+          <span class="ctline__k">Telefono</span>
+          <span class="ctline__v">+39 333 619 1559</span>
+          <span class="ctline__arrow" aria-hidden="true">→</span>
+        </a>
+        <div class="ctline ctline--static">
+          <span class="ctline__k">Zona</span>
+          <span class="ctline__v">Lodi, Italia</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="foot">
+  <div class="wrap foot__in">
+    <span>© <span id="year">2026</span> Fredelly Calò</span>
+    <span class="foot__mono">Lodi, Italia · disegnato e sviluppato da me</span>
+  </div>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>

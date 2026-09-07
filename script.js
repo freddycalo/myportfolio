@@ -14,8 +14,72 @@
   var html = document.documentElement;
   html.classList.add('js');
 
-  var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var reduced = false;
   var isTouch = window.matchMedia('(hover: none)').matches;
+  html.classList.add('motion-force');
+  window.setTimeout(function () { html.classList.add('intro-done'); }, 3200);
+
+  (function removeLegacyDuplicates () {
+    var main = document.querySelector('main');
+    var work = document.getElementById('lavori');
+    var profile = document.getElementById('chi-sono');
+    var contact = document.getElementById('contatti');
+    if (main && work && profile) profile.before(work);
+    if (main && contact) {
+      var tail = contact.nextSibling;
+      while (tail) {
+        var next = tail.nextSibling;
+        tail.remove();
+        tail = next;
+      }
+    }
+
+    var seen = {};
+    document.querySelectorAll('[id]').forEach(function (el) {
+      if (!el.id) return;
+      if (seen[el.id]) el.remove();
+      else seen[el.id] = true;
+    });
+    var tickers = document.querySelectorAll('.ticker');
+    tickers.forEach(function (ticker, index) { if (index > 0) ticker.remove(); });
+  })();
+
+  (function languageToggle () {
+    var toggle = document.getElementById('langToggle');
+    if (!toggle) return;
+    toggle.dataset.bound = 'true';
+    var english = false;
+    var translations = {
+      'In cerca di lavoro · disponibile subito': 'Available for work · ready to start',
+      'Scrivimi due righe': 'Send me a message', 'Guarda il percorso': 'See my path',
+      'scorri': 'scroll', 'Chi sono': 'About me', 'Percorso': 'Path',
+      'Quello che faccio': 'What I do', 'Profilo': 'Profile',
+      'Tecnologia, curiosità e voglia di imparare. Quattro direzioni, un solo modo di lavorare: con precisione.': 'Technology, curiosity and a will to learn. Four directions, one way of working: with precision.',
+      'Competenze': 'Skills', 'Esperienza': 'Experience', 'Lingue': 'Languages',
+      'Contatti': 'Contact', 'Tutte': 'All', 'Sviluppo web': 'Web development',
+      'Reti e sicurezza': 'Networks & security', 'Strumenti': 'Tools',
+      'Soft skill': 'Soft skills', 'Parliamone': "Let's talk",
+      'Propongimi un lavoro': 'Offer me a job', 'Italiano': 'Italian',
+      'Inglese': 'English', 'Spagnolo': 'Spanish', 'Madrelingua': 'Native speaker',
+      'In cerca': 'Available', 'Zona': 'Location', 'Età': 'Age', 'Studi': 'Studies',
+      'Cerco': 'Looking for', 'Orari': 'Schedule', 'Patente': 'Driving licence',
+      'Lodi, Italia': 'Lodi, Italy'
+    };
+    toggle.addEventListener('click', function () {
+      english = !english;
+      if (!english) { window.location.reload(); return; }
+      var walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
+      var node;
+      while ((node = walker.nextNode())) {
+        var value = node.nodeValue.trim();
+        if (translations[value]) node.nodeValue = node.nodeValue.replace(value, translations[value]);
+      }
+      toggle.textContent = 'IT';
+      toggle.title = "Passa all'italiano";
+      toggle.setAttribute('aria-pressed', 'true');
+      document.documentElement.lang = 'en';
+    });
+  })();
 
   /* ---------- 1. nome diviso in lettere ---------- */
   (function splitName () {
@@ -256,19 +320,7 @@
     }
   }
 
-  /* ---------- 10b. parallasse dell'hero col mouse ---------- */
-  if (!isTouch && !reduced) {
-    var hero = document.getElementById('hero');
-    if (hero) {
-      hero.addEventListener('pointermove', function (e) {
-        var r = hero.getBoundingClientRect();
-        hero.style.setProperty('--px', ((e.clientX - r.left) / r.width - 0.5).toFixed(3));
-        hero.style.setProperty('--py', ((e.clientY - r.top) / r.height - 0.5).toFixed(3));
-      }, { passive: true });
-    }
-  }
-
-  /* ---------- 10c. barra di avanzamento, topbar e sezione attiva ---------- */
+  /* ---------- 10b. barra di avanzamento, topbar e sezione attiva ---------- */
   (function scrollUI () {
     var bar = document.getElementById('progressBar');
     var topbar = document.getElementById('topbar');
@@ -292,13 +344,17 @@
       if (topbar && heroEl) {
         var limit = heroEl.offsetHeight - topbar.offsetHeight - 40;
         topbar.classList.toggle('is-light', window.scrollY > limit);
+        heroEl.classList.toggle('is-scrolling', window.scrollY > 12);
       }
 
       var current = null;
       sections.forEach(function (s) {
         if (s.el.getBoundingClientRect().top <= window.innerHeight * 0.35) current = s;
       });
-      sections.forEach(function (s) { s.link.classList.toggle('is-active', s === current); });
+      sections.forEach(function (s) {
+        s.link.classList.toggle('is-active', s === current);
+        s.el.classList.toggle('is-current', s === current);
+      });
     }
 
     window.addEventListener('scroll', function () {
@@ -310,6 +366,44 @@
   })();
 
   /* ---------- anno nel footer ---------- */
+  (function mobileAccordions () {
+    function init () {
+      var sections = document.querySelectorAll('.section:not(.contact)');
+      if (!sections.length) return;
+
+      sections.forEach(function (section, index) {
+        var heading = section.querySelector('.shead');
+        if (!heading || heading.querySelector('.section-toggle')) return;
+
+        var toggle = document.createElement('button');
+        toggle.className = 'section-toggle';
+        toggle.type = 'button';
+        toggle.setAttribute('aria-expanded', index === 0 ? 'true' : 'false');
+        toggle.setAttribute('aria-label', 'Apri o chiudi la sezione ' + heading.querySelector('.shead__title').textContent);
+        toggle.innerHTML = '<span></span><span></span>';
+        heading.appendChild(toggle);
+        section.classList.toggle('is-open', index === 0);
+
+        toggle.addEventListener('click', function () {
+          var open = section.classList.toggle('is-open');
+          toggle.setAttribute('aria-expanded', String(open));
+        });
+      });
+    }
+
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
+    else init();
+  })();
+
+  window.addEventListener('scroll', function () {
+    var hero = document.getElementById('hero');
+    if (hero) hero.classList.toggle('is-scrolling', window.scrollY > 12);
+  }, { passive: true });
+  window.setInterval(function () {
+    var hero = document.getElementById('hero');
+    if (hero) hero.classList.toggle('is-scrolling', window.scrollY > 12);
+  }, 50);
+
   var year = document.getElementById('year');
   if (year) year.textContent = new Date().getFullYear();
 })();

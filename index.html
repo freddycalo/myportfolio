@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Fredelly Calò — Sviluppo web, reti e cybersecurity · Lodi</title>
 <meta name="description" content="Fredelly Calò, 20 anni, Lodi. Diplomato in Informatica e Telecomunicazioni, studente di Cybersecurity. In cerca di un part-time o di lavori su chiamata: disponibile subito, massima flessibilità." />
-<meta name="theme-color" content="#0A1B2E" />
+<meta name="theme-color" content="#0b0b0b" />
 
 <!-- Open Graph -->
 <meta property="og:type" content="website" />
@@ -18,11 +18,30 @@
 <!-- Font: display geometrico + sans tecnico + mono per le annotazioni da disegno tecnico -->
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=Archivo+Black&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&family=Syne:wght@600;700;800&display=swap" rel="stylesheet" />
 
-<link rel="stylesheet" href="styles.css" />
+<link rel="stylesheet" href="styles.css?v=22" />
 </head>
 <body>
+
+<div class="page-loader" aria-hidden="true">
+  <div class="intro-film">
+    <span class="intro-film__kicker">FREDELLY CALO' / 2026</span>
+    <span class="intro-film__counter">00:00:00</span>
+    <div class="intro-film__frame">
+      <span class="intro-film__scan"></span>
+      <span class="intro-film__letter intro-film__letter--f">F</span>
+      <span class="intro-film__letter intro-film__letter--c">C</span>
+      <span class="intro-film__line intro-film__line--one"></span>
+      <span class="intro-film__line intro-film__line--two"></span>
+      <span class="intro-film__caption">DIGITAL PROFILE / ENTER</span>
+    </div>
+    <span class="intro-film__sound">PLAY / 01</span>
+  </div>
+  <i></i>
+</div>
+
+<div class="ambient-bg" aria-hidden="true"></div>
 
 <!-- Barra di avanzamento lettura -->
 <div class="progress" aria-hidden="true"><span id="progressBar"></span></div>
@@ -45,63 +64,127 @@
   </a>
 
   <nav class="topbar__nav" aria-label="Navigazione principale">
-    <a href="#chi-sono"><em>01</em> Chi sono</a>
-    <a href="#percorso"><em>02</em> Percorso</a>
-    <a href="#competenze"><em>03</em> Competenze</a>
-    <a href="#esperienza"><em>04</em> Esperienza</a>
-    <a href="#lingue"><em>05</em> Lingue</a>
+    <a href="#lavori"><em>01</em> Lavori</a>
+    <a href="#identita"><em>02</em> Profilo</a>
+    <a href="#percorso"><em>03</em> Percorso</a>
+    <a href="#competenze"><em>04</em> Competenze</a>
+    <a href="#contatti"><em>05</em> Contatti</a>
   </nav>
 
   <a class="btn btn--sm btn--solid topbar__cta magnetic" href="#contatti">Contattami</a>
+  <button class="lang-toggle" id="langToggle" type="button" aria-pressed="false" title="Passa all'inglese">EN</button>
 </header>
 
 <main>
 
 <!-- ============ 00 · HERO (fondo scuro: massimo contrasto all'apertura) ============ -->
-<section class="hero" id="hero">
-  <div class="hero__grid" aria-hidden="true"></div>
-  <div class="hero__glow" aria-hidden="true"></div>
-
-  <div class="wrap hero__inner">
-
-    <div class="hero__text">
-      <p class="tag">
-        <span class="dot" aria-hidden="true"></span>
-        In cerca di lavoro · disponibile subito
-      </p>
-
-      <!-- Il nome viene diviso in lettere da script.js per l'animazione d'ingresso -->
-      <h1 class="hero__name" data-split>Fredelly<br>Calò<span class="dotmark">.</span></h1>
-
-      <p class="hero__role" aria-label="Aree: sviluppo web, reti e sicurezza, cybersecurity, lavoro con il pubblico">
-        <span class="hero__role-k">focus</span>
-        <span class="typed" id="typed"></span><span class="caret" aria-hidden="true"></span>
-      </p>
-
-      <p class="hero__lead reveal" data-delay="1">
-        20 anni, Lodi. Diplomato in <strong>Informatica e Telecomunicazioni</strong>,
-        studente di <strong>Cybersecurity</strong>. Costruisco siti web, smonto e rimonto hardware,
-        capisco le reti — e gioco a calcio agonistico.
-        <span class="hl">Cerco un part-time o un lavoro su chiamata: puntuale, affidabile, flessibile sugli orari.</span>
-      </p>
-
-      <div class="hero__cta reveal" data-delay="2">
-        <a class="btn btn--solid magnetic" href="#contatti">Scrivimi due righe</a>
-        <a class="btn btn--ghost magnetic" href="#percorso">Guarda il percorso</a>
-      </div>
-
-      <!-- Numeri reali, nessuna statistica inventata -->
-      <dl class="stats reveal" data-delay="3">
-        <div><dt>Base</dt><dd>Lodi (LO)</dd></div>
-        <div><dt>Diploma</dt><dd><span class="count" data-count="2026" data-plain>2026</span></dd></div>
-        <div><dt>Certificazioni</dt><dd><span class="count" data-count="4">4</span></dd></div>
-        <div><dt>Lingue</dt><dd><span class="count" data-count="3">3</span></dd></div>
-      </dl>
+<section class="hero hero--identity" id="hero">
+  <div class="hero__blackout" aria-hidden="true"></div>
+  <div class="hero__grain" aria-hidden="true"></div>
+  <div class="hero__inner">
+    <p class="hero__eyebrow">FREDELLY CALO' / DIGITAL PROFILE</p>
+    <div class="fc-mark" aria-label="Monogramma Fredelly Calò" role="img">
+      <span>F</span><span>C</span><i></i>
     </div>
+    <div class="hero__signature">
+      <span>scroll to enter</span>
+      <span class="hero__scroll-line"></span>
+      <strong>Fredelly<br>Calò</strong>
+    </div>
+  </div>
+</section>
 
-    <!-- Signature: schema tecnico che si disegna all'apertura, con impulsi lungo le linee -->
-    <figure class="schematic" aria-labelledby="schematic-cap">
-      <svg id="blueprint" viewBox="0 0 420 460" role="img" aria-label="Schema tecnico delle quattro aree: sviluppo web, reti e sicurezza, lavoro con il pubblico, sport e disciplina">
+<section class="identity-section" id="identita">
+  <div class="wrap identity-grid">
+    <p class="identity-kicker reveal">02 / IDENTITA'</p>
+    <div class="identity-copy">
+      <h1 class="identity-title reveal">Fredelly<br><em>Calò.</em></h1>
+      <p class="identity-lead reveal" data-delay="1">Ho 20 anni, vivo a Lodi e sto costruendo il mio percorso tra sviluppo web, reti e cybersecurity.</p>
+      <p class="identity-text reveal" data-delay="2">Mi piace capire come funzionano le cose, smontarle e ricostruirle meglio. Studio Cybersecurity, lavoro con HTML, CSS, JavaScript, Python e sistemi, e porto nello studio la stessa disciplina che porto nello sport.</p>
+      <div class="identity-reason reveal" data-delay="3">
+        <span class="identity-reason__label">Il mio metodo</span>
+        <p>Osservare, capire e poi agire. Mi interessa lavorare con precisione, imparare in fretta e adattarmi a situazioni diverse senza perdere direzione.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ striscia scorrevole ============ -->
+<div class="ticker" aria-hidden="true">
+  <div class="ticker__track">
+    <span>Python</span><i>◆</i><span>Reti &amp; protocolli</span><i>◆</i><span>HTML / CSS</span><i>◆</i><span>Cybersecurity</span><i>◆</i><span>Precisione</span><i>◆</i><span>Curiosita'</span><i>◆</i>
+    <span>Python</span><i>◆</i><span>Reti &amp; protocolli</span><i>◆</i><span>HTML / CSS</span><i>◆</i><span>Cybersecurity</span><i>◆</i><span>Precisione</span><i>◆</i><span>Curiosita'</span><i>◆</i>
+  </div>
+</div>
+
+<!-- ============ 02 · LAVORI ============ -->
+<!-- ============ 02 · SCHEMA TECNICO (nascosto nell'identita') ============ -->
+<!-- ============ 02 · CHI SONO ============ -->
+<section class="section legacy-profile" id="chi-sono">
+  <div class="wrap">
+    <header class="shead reveal">
+      <span class="shead__num">02</span>
+      <h2 class="shead__title" data-scramble>Profilo completo</h2>
+      <span class="shead__rule" aria-hidden="true"></span>
+    </header>
+
+    <div class="about">
+      <div class="about__text">
+        <p class="reveal lede">Mi chiamo Fredelly, ho 20 anni e vivo a Lodi. Mi sono diplomato in Informatica e Telecomunicazioni e sto proseguendo con l'universita' in Cybersecurity: e' la direzione che voglio dare alla mia carriera.</p>
+        <p class="reveal" data-delay="1">In questo momento sto cercando lavoro. Ho lavorato come facchino, magazziniere e cameriere: esperienze diverse che mi hanno insegnato puntualita', responsabilita' e adattamento.</p>
+        <p class="reveal" data-delay="2">Gioco a calcio agonistico e mi alleno con costanza. Il calcio mi ha dato disciplina, spirito di sacrificio e l'abitudine a lavorare per un risultato che non e' mai solo mio.</p>
+      </div>
+      <aside class="about__card reveal" data-delay="2">
+        <p class="card__label">Scheda rapida</p>
+        <ul class="speclist">
+          <li><span>Eta'</span><b>20 anni</b></li><li><span>Zona</span><b>Lodi, Italia</b></li><li><span>Studi</span><b>Cybersecurity</b></li><li><span>Cerco</span><b>Part-time / su chiamata</b></li>
+        </ul>
+        <a class="btn btn--ghost btn--full magnetic" href="#contatti">Parliamone</a>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 03 · PERCORSO ============ -->
+<section class="section section--alt" id="percorso">
+  <div class="wrap">
+    <header class="shead reveal"><span class="shead__num">03</span><h2 class="shead__title" data-scramble>Percorso</h2><span class="shead__rule" aria-hidden="true"></span></header>
+    <ol class="timeline">
+      <li class="tl reveal"><span class="tl__year">2026</span><div class="tl__body"><h3>Diploma di Istruzione Secondaria Superiore</h3><p class="tl__meta">Informatica e Telecomunicazioni · IIS “A. Volta”, Lodi</p><p>Cinque anni tra programmazione, sistemi e reti, database e laboratorio hardware.</p></div></li>
+      <li class="tl reveal" data-delay="1"><span class="tl__year">Ora</span><div class="tl__body"><h3>Universita' in Cybersecurity</h3><p class="tl__meta">Corso di laurea · in corso</p><p>Il passo successivo: specializzarmi nella sicurezza informatica continuando a lavorare e ad allenarmi.</p></div></li>
+    </ol>
+  </div>
+</section>
+
+<!-- ============ 04 · COMPETENZE ============ -->
+<section class="section" id="competenze">
+  <div class="wrap">
+    <header class="shead reveal"><span class="shead__num">04</span><h2 class="shead__title" data-scramble>Competenze</h2><span class="shead__rule" aria-hidden="true"></span></header>
+    <div class="filters reveal" role="group" aria-label="Filtra le competenze"><button class="chip is-on" data-filter="all" aria-pressed="true">Tutte</button><button class="chip" data-filter="dev" aria-pressed="false">Sviluppo web</button><button class="chip" data-filter="net" aria-pressed="false">Reti e sicurezza</button><button class="chip" data-filter="tools" aria-pressed="false">Strumenti</button><button class="chip" data-filter="soft" aria-pressed="false">Soft skill</button></div>
+    <div class="skills" id="skillsGrid">
+      <article class="skill reveal" data-cat="dev"><span class="skill__cat">Sviluppo web</span><h3>Siti web</h3><p>Costruisco siti da zero in HTML e CSS, con basi frontend e backend.</p></article>
+      <article class="skill reveal" data-cat="dev" data-delay="1"><span class="skill__cat">Linguaggi</span><h3>Python</h3><p>Script, esercizi e piccoli progetti.</p></article>
+      <article class="skill reveal" data-cat="net"><span class="skill__cat">Sicurezza</span><h3>Cybersecurity</h3><p>L'area in cui mi sto specializzando all'universita'.</p></article>
+      <article class="skill reveal" data-cat="net" data-delay="1"><span class="skill__cat">Reti</span><h3>Reti e protocolli</h3><p>Moduli Cisco e funzionamento delle reti informatiche.</p></article>
+      <article class="skill reveal" data-cat="soft"><span class="skill__cat">Soft skill</span><h3>Affidabilita'</h3><p>Prendo un impegno e lo porto a termine.</p></article>
+      <article class="skill reveal" data-cat="soft" data-delay="1"><span class="skill__cat">Squadra</span><h3>Spirito di squadra</h3><p>Anni di calcio agonistico: ascoltare e fare la mia parte.</p></article>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 05 · ESPERIENZA ============ -->
+<section class="section section--alt" id="esperienza">
+  <div class="wrap"><header class="shead reveal"><span class="shead__num">05</span><h2 class="shead__title" data-scramble>Esperienza</h2><span class="shead__rule" aria-hidden="true"></span></header><p class="sintro reveal">Quello che ho gia' fatto — e quello che sto cercando adesso.</p><div class="jobs"><article class="job reveal"><div class="job__head"><div><h3>Facchino / magazziniere</h3><p class="job__org">Tsunami Concerti — Milano</p></div><span class="badge">Su chiamata</span></div><ul class="tasks"><li>Allestimenti per eventi e concerti</li><li>Gestione del magazzino e dei materiali</li><li>Turni variabili e orari flessibili</li></ul></article><article class="job job--open reveal" data-delay="1"><div class="job__head"><div><h3>Il prossimo posto</h3><p class="job__org">Disponibile subito — Lodi e Milano</p></div><span class="badge badge--live"><span class="dot" aria-hidden="true"></span> In cerca</span></div><ul class="tasks"><li>Part-time, weekend ed eventi</li><li>Assistenza informatica, hardware e web</li><li>Mi organizzo tra universita' e allenamenti</li></ul><a class="btn btn--solid btn--full magnetic" href="#contatti">Propongimi un lavoro</a></article></div></div>
+</section>
+
+<!-- ============ 06 · LINGUE ============ -->
+<section class="section" id="lingue"><div class="wrap"><header class="shead reveal"><span class="shead__num">06</span><h2 class="shead__title" data-scramble>Lingue</h2><span class="shead__rule" aria-hidden="true"></span></header><div class="langs"><article class="lang reveal"><h3>Italiano</h3><p class="lang__lvl">Madrelingua</p><div class="meter"><i style="--v:100%"></i></div></article><article class="lang reveal"><h3>Inglese</h3><p class="lang__lvl">B2</p><div class="meter"><i style="--v:70%"></i></div></article><article class="lang reveal"><h3>Spagnolo</h3><p class="lang__lvl">B1</p><div class="meter"><i style="--v:50%"></i></div></article></div></div></section>
+
+<!-- ============ 07 · CONTATTI ============ -->
+<section class="section contact" id="contatti"><div class="contact__grid" aria-hidden="true"></div><div class="wrap"><header class="shead shead--light reveal"><span class="shead__num">07</span><h2 class="shead__title" data-scramble>Contatti</h2><span class="shead__rule" aria-hidden="true"></span></header><div class="contact__inner"><div class="reveal"><p class="contact__claim">Se cercate qualcuno di giovane, sveglio e <span class="hl hl--dark">su cui poter contare</span>, scrivetemi.</p><p class="contact__sub">Disponibile subito per part-time e lavori su chiamata in zona Lodi e Milano.</p></div><div class="contact__links reveal" data-delay="1"><a class="ctline" href="mailto:freddycalo73@gmail.com"><span class="ctline__k">Email</span><span class="ctline__v">freddycalo73@gmail.com</span><span class="ctline__arrow">→</span></a><a class="ctline" href="tel:+393336191559"><span class="ctline__k">Telefono</span><span class="ctline__v">+39 333 619 1559</span><span class="ctline__arrow">→</span></a><div class="ctline ctline--static"><span class="ctline__k">Zona</span><span class="ctline__v">Lodi, Italia</span></div></div></div></div></section>
+
+<!-- legacy content replaced above -->
+<!--
         <defs>
           <pattern id="mesh" width="20" height="20" patternUnits="userSpaceOnUse">
             <path d="M20 0H0V20" fill="none" stroke="currentColor" stroke-width=".5" opacity=".3"/>
@@ -175,11 +258,53 @@
   </div>
 </div>
 
-<!-- ============ 01 · CHI SONO ============ -->
-<section class="section" id="chi-sono">
+<!-- ============ 01 · LAVORI ============ -->
+<section class="section work-section" id="lavori">
   <div class="wrap">
     <header class="shead reveal">
       <span class="shead__num">01</span>
+      <h2 class="shead__title" data-scramble>Quello che faccio</h2>
+      <span class="shead__rule" aria-hidden="true"></span>
+    </header>
+    <p class="work-intro reveal">Tecnologia, curiosità e voglia di imparare. Quattro direzioni, un solo modo di lavorare: con precisione.</p>
+    <div class="work-list" data-work-list>
+      <a class="work-row reveal" href="#competenze" data-work="web">
+        <span class="work-row__number">01</span>
+        <span class="work-row__title">Web design &amp; development</span>
+        <span class="work-row__meta">HTML · CSS · JavaScript</span>
+        <span class="work-row__arrow">↗</span>
+        <span class="work-preview work-preview--web" aria-hidden="true"><b>&lt;/&gt;</b><i></i></span>
+      </a>
+      <a class="work-row reveal" href="#competenze" data-work="security">
+        <span class="work-row__number">02</span>
+        <span class="work-row__title">Reti &amp; cybersecurity</span>
+        <span class="work-row__meta">Protocolli · sistemi · hardware</span>
+        <span class="work-row__arrow">↗</span>
+        <span class="work-preview work-preview--security" aria-hidden="true"><b>0101</b><i></i></span>
+      </a>
+      <a class="work-row reveal" href="#percorso" data-work="systems">
+        <span class="work-row__number">03</span>
+        <span class="work-row__title">Python &amp; sistemi</span>
+        <span class="work-row__meta">SQL · automazioni · logica</span>
+        <span class="work-row__arrow">↗</span>
+        <span class="work-preview work-preview--systems" aria-hidden="true"><b>PY</b><i></i></span>
+      </a>
+      <a class="work-row reveal" href="#esperienza" data-work="team">
+        <span class="work-row__number">04</span>
+        <span class="work-row__title">Affidabilità sul campo</span>
+        <span class="work-row__meta">Squadra · disciplina · presenza</span>
+        <span class="work-row__arrow">↗</span>
+        <span class="work-preview work-preview--team" aria-hidden="true"><b>FC</b><i></i></span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 02 · CHI SONO ============ -->
+<section class="section" id="chi-sono">
+  <div class="wrap">
+    <header class="shead reveal">
+      <span class="shead__num">02</span>
       <h2 class="shead__title" data-scramble>Chi sono</h2>
       <span class="shead__rule" aria-hidden="true"></span>
     </header>
@@ -208,11 +333,11 @@
   </div>
 </section>
 
-<!-- ============ 02 · PERCORSO ============ -->
+<!-- ============ 03 · PERCORSO ============ -->
 <section class="section section--alt" id="percorso">
   <div class="wrap">
     <header class="shead reveal">
-      <span class="shead__num">02</span>
+      <span class="shead__num">03</span>
       <h2 class="shead__title" data-scramble>Percorso</h2>
       <span class="shead__rule" aria-hidden="true"></span>
     </header>
@@ -253,11 +378,11 @@
   </div>
 </section>
 
-<!-- ============ 03 · COMPETENZE ============ -->
+<!-- ============ 04 · COMPETENZE ============ -->
 <section class="section" id="competenze">
   <div class="wrap">
     <header class="shead reveal">
-      <span class="shead__num">03</span>
+      <span class="shead__num">04</span>
       <h2 class="shead__title" data-scramble>Competenze</h2>
       <span class="shead__rule" aria-hidden="true"></span>
     </header>
@@ -351,11 +476,11 @@
   </div>
 </section>
 
-<!-- ============ 04 · ESPERIENZA ============ -->
+<!-- ============ 05 · ESPERIENZA ============ -->
 <section class="section section--alt" id="esperienza">
   <div class="wrap">
     <header class="shead reveal">
-      <span class="shead__num">04</span>
+      <span class="shead__num">05</span>
       <h2 class="shead__title" data-scramble>Esperienza</h2>
       <span class="shead__rule" aria-hidden="true"></span>
     </header>
@@ -420,11 +545,11 @@
   </div>
 </section>
 
-<!-- ============ 05 · LINGUE ============ -->
+<!-- ============ 06 · LINGUE ============ -->
 <section class="section" id="lingue">
   <div class="wrap">
     <header class="shead reveal">
-      <span class="shead__num">05</span>
+      <span class="shead__num">06</span>
       <h2 class="shead__title" data-scramble>Lingue</h2>
       <span class="shead__rule" aria-hidden="true"></span>
     </header>
@@ -451,12 +576,12 @@
   </div>
 </section>
 
-<!-- ============ 06 · CONTATTI ============ -->
+<!-- ============ 07 · CONTATTI ============ -->
 <section class="section contact" id="contatti">
   <div class="contact__grid" aria-hidden="true"></div>
   <div class="wrap">
     <header class="shead shead--light reveal">
-      <span class="shead__num">06</span>
+      <span class="shead__num">07</span>
       <h2 class="shead__title" data-scramble>Contatti</h2>
       <span class="shead__rule" aria-hidden="true"></span>
     </header>
@@ -489,13 +614,65 @@
 
 </main>
 
-<footer class="foot">
-  <div class="wrap foot__in">
-    <span>© <span id="year">2026</span> Fredelly Calò</span>
-    <span class="foot__mono">Lodi, Italia · disegnato e sviluppato da me</span>
-  </div>
-</footer>
+<footer class="foot"><div class="wrap foot__in"><span>© <span id="year">2026</span> Fredelly Calò</span><span class="foot__mono">Lodi, Italia · metodo / precisione</span></div></footer>
 
-<script src="script.js"></script>
+<script src="script.js?v=22"></script>
+<script>
+window.addEventListener('load', function () {
+  document.documentElement.classList.add('motion-force');
+
+  var language = document.getElementById('langToggle');
+  if (language && !language.dataset.bound) {
+    language.dataset.bound = 'true';
+    language.addEventListener('click', function () {
+      var translations = {
+        'In cerca di lavoro · disponibile subito': 'Available for work · ready to start',
+        'Scrivimi due righe': 'Send me a message', 'Guarda il percorso': 'See my path',
+        'scorri': 'scroll', 'Chi sono': 'About me', 'Percorso': 'Path',
+        'Competenze': 'Skills', 'Esperienza': 'Experience', 'Lingue': 'Languages',
+        'Contatti': 'Contact', 'Tutte': 'All', 'Sviluppo web': 'Web development',
+        'Reti e sicurezza': 'Networks & security', 'Strumenti': 'Tools', 'Soft skill': 'Soft skills',
+        'Parliamone': "Let's talk", 'Propongimi un lavoro': 'Offer me a job',
+        'Italiano': 'Italian', 'Inglese': 'English', 'Spagnolo': 'Spanish',
+        'Madrelingua': 'Native speaker', 'In cerca': 'Available', 'Zona': 'Location',
+        'Età': 'Age', 'Studi': 'Studies', 'Cerco': 'Looking for', 'Orari': 'Schedule',
+        'Patente': 'Driving licence', 'Lodi, Italia': 'Lodi, Italy'
+      };
+      var walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
+      var node;
+      while ((node = walker.nextNode())) {
+        var value = node.nodeValue.trim();
+        if (translations[value]) node.nodeValue = node.nodeValue.replace(value, translations[value]);
+      }
+      language.textContent = 'IT';
+      language.title = "Passa all'italiano";
+      language.setAttribute('aria-pressed', 'true');
+      document.documentElement.lang = 'en';
+    });
+  }
+
+  document.querySelectorAll('.section:not(.contact)').forEach(function (section, index) {
+    var heading = section.querySelector('.shead');
+    if (!heading || heading.querySelector('.section-toggle')) return;
+    var toggle = document.createElement('button');
+    toggle.className = 'section-toggle';
+    toggle.type = 'button';
+    toggle.setAttribute('aria-expanded', index === 0 ? 'true' : 'false');
+    toggle.setAttribute('aria-label', 'Apri o chiudi ' + heading.querySelector('.shead__title').textContent);
+    toggle.innerHTML = '<span></span><span></span>';
+    heading.appendChild(toggle);
+    section.classList.toggle('is-open', index === 0);
+    toggle.addEventListener('click', function () {
+      var open = section.classList.toggle('is-open');
+      toggle.setAttribute('aria-expanded', String(open));
+    });
+  });
+
+});
+window.addEventListener('scroll', function () {
+  var hero = document.getElementById('hero');
+  if (hero) hero.classList.toggle('is-scrolling', window.scrollY > 12);
+}, { passive: true });
+</script>
 </body>
 </html>

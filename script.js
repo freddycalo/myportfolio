@@ -1,409 +1,115 @@
 /* =========================================================
-   Fredelly Calò — comportamenti del sito (vanilla JS, zero dipendenze)
-   1.  split del nome in lettere        6.  contatori
-   2.  schema tecnico animato           7.  filtro competenze
-   3.  testo che si scrive da solo      8.  bagliore sulle card
-   4.  reveal allo scroll               9.  bottoni magnetici
-   5.  titoli con effetto scramble      10. mirino, topbar, progresso
-   Tutto degrada bene: senza JS il sito resta leggibile,
-   con prefers-reduced-motion le animazioni non partono.
+   FREDELLY CALÒ — Script ottimizzato per fluidità
    ========================================================= */
+
 (function () {
   'use strict';
 
   var html = document.documentElement;
-  html.classList.add('js');
+  var loader = document.getElementById('loader');
+  var introDone = false;
 
-  var reduced = false;
-  var isTouch = window.matchMedia('(hover: none)').matches;
-  html.classList.add('motion-force');
-  window.setTimeout(function () { html.classList.add('intro-done'); }, 3200);
+  /* ---- 1. INTRO ZOOM ---- */
+  function triggerIntro() {
+    if (introDone) return;
+    introDone = true;
+    html.classList.add('intro-zooming');
+    setTimeout(function () {
+      html.classList.add('intro-done');
+      initReveal();
+    }, 1400);
+  }
 
-  (function removeLegacyDuplicates () {
-    var main = document.querySelector('main');
-    var work = document.getElementById('lavori');
-    var profile = document.getElementById('chi-sono');
-    var contact = document.getElementById('contatti');
-    if (main && work && profile) profile.before(work);
-    if (main && contact) {
-      var tail = contact.nextSibling;
-      while (tail) {
-        var next = tail.nextSibling;
-        tail.remove();
-        tail = next;
-      }
-    }
-
-    var seen = {};
-    document.querySelectorAll('[id]').forEach(function (el) {
-      if (!el.id) return;
-      if (seen[el.id]) el.remove();
-      else seen[el.id] = true;
-    });
-    var tickers = document.querySelectorAll('.ticker');
-    tickers.forEach(function (ticker, index) { if (index > 0) ticker.remove(); });
-  })();
-
-  (function languageToggle () {
-    var toggle = document.getElementById('langToggle');
-    if (!toggle) return;
-    toggle.dataset.bound = 'true';
-    var english = false;
-    var translations = {
-      'In cerca di lavoro · disponibile subito': 'Available for work · ready to start',
-      'Scrivimi due righe': 'Send me a message', 'Guarda il percorso': 'See my path',
-      'scorri': 'scroll', 'Chi sono': 'About me', 'Percorso': 'Path',
-      'Quello che faccio': 'What I do', 'Profilo': 'Profile',
-      'Tecnologia, curiosità e voglia di imparare. Quattro direzioni, un solo modo di lavorare: con precisione.': 'Technology, curiosity and a will to learn. Four directions, one way of working: with precision.',
-      'Competenze': 'Skills', 'Esperienza': 'Experience', 'Lingue': 'Languages',
-      'Contatti': 'Contact', 'Tutte': 'All', 'Sviluppo web': 'Web development',
-      'Reti e sicurezza': 'Networks & security', 'Strumenti': 'Tools',
-      'Soft skill': 'Soft skills', 'Parliamone': "Let's talk",
-      'Propongimi un lavoro': 'Offer me a job', 'Italiano': 'Italian',
-      'Inglese': 'English', 'Spagnolo': 'Spanish', 'Madrelingua': 'Native speaker',
-      'In cerca': 'Available', 'Zona': 'Location', 'Età': 'Age', 'Studi': 'Studies',
-      'Cerco': 'Looking for', 'Orari': 'Schedule', 'Patente': 'Driving licence',
-      'Lodi, Italia': 'Lodi, Italy'
-    };
-    toggle.addEventListener('click', function () {
-      english = !english;
-      if (!english) { window.location.reload(); return; }
-      var walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
-      var node;
-      while ((node = walker.nextNode())) {
-        var value = node.nodeValue.trim();
-        if (translations[value]) node.nodeValue = node.nodeValue.replace(value, translations[value]);
-      }
-      toggle.textContent = 'IT';
-      toggle.title = "Passa all'italiano";
-      toggle.setAttribute('aria-pressed', 'true');
-      document.documentElement.lang = 'en';
-    });
-  })();
-
-  /* ---------- 1. nome diviso in lettere ---------- */
-  (function splitName () {
-    var el = document.querySelector('[data-split]');
-    if (!el) return;
-
-    var i = 0;
-
-    // ricostruisce il titolo lettera per lettera, mantenendo <br> e il punto arancione
-    function walk (node, target) {
-      Array.prototype.slice.call(node.childNodes).forEach(function (child) {
-        if (child.nodeType === 3) {
-          child.textContent.split('').forEach(function (chr) {
-            if (chr === ' ') { target.appendChild(document.createTextNode(' ')); return; }
-            var outer = document.createElement('span');
-            outer.className = 'ch';
-            outer.style.setProperty('--i', i++);
-            var inner = document.createElement('span');
-            inner.textContent = chr;
-            outer.appendChild(inner);
-            target.appendChild(outer);
-          });
-        } else if (child.tagName === 'BR') {
-          target.appendChild(document.createElement('br'));
-        } else {
-          var clone = child.cloneNode(false);
-          walk(child, clone);
-          target.appendChild(clone);
+  if (loader) {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      html.classList.add('intro-done');
+      introDone = true;
+      initReveal();
+    } else {
+      // Scroll trigger (passive per non bloccare il thread)
+      window.addEventListener('scroll', function onScroll() {
+        if (window.scrollY > 4) {
+          triggerIntro();
+          window.removeEventListener('scroll', onScroll);
         }
-      });
-    }
-
-    var frag = document.createDocumentFragment();
-    walk(el, frag);
-    el.textContent = '';
-    el.appendChild(frag);
-  })();
-
-  /* ---------- 2. schema tecnico: lunghezza dei tratti + avvio ---------- */
-  (function blueprint () {
-    var svg = document.getElementById('blueprint');
-    if (!svg) return;
-
-    svg.querySelectorAll('path').forEach(function (p) {
-      if (typeof p.getTotalLength !== 'function') return;
-      var len = Math.ceil(p.getTotalLength());
-      if (len) p.style.setProperty('--len', len);
-    });
-
-    var ring = svg.querySelector('.core__ring');
-    if (ring && typeof ring.getTotalLength === 'function') {
-      ring.style.setProperty('--len', Math.ceil(ring.getTotalLength()));
-    }
-
-    if (!reduced) requestAnimationFrame(function () { html.classList.add('anim'); });
-  })();
-
-  /* ---------- 3. riga "focus": testo che si scrive da solo ---------- */
-  (function typewriter () {
-    var out = document.getElementById('typed');
-    if (!out) return;
-
-    var words = [
-      'sviluppo web',
-      'reti e protocolli',
-      'cybersecurity',
-      'hardware e assistenza',
-      'lavoro con il pubblico'
-    ];
-
-    if (reduced) { out.textContent = words.join(' · '); return; }
-
-    var w = 0, c = 0, deleting = false;
-
-    function tick () {
-      var word = words[w];
-      c += deleting ? -1 : 1;
-      out.textContent = word.slice(0, c);
-
-      var wait = deleting ? 34 : 62;
-      if (!deleting && c === word.length) { deleting = true; wait = 1500; }
-      else if (deleting && c === 0) { deleting = false; w = (w + 1) % words.length; wait = 260; }
-
-      setTimeout(tick, wait);
-    }
-    tick();
-  })();
-
-  /* ---------- 4. reveal allo scroll ---------- */
-  var revealables = document.querySelectorAll('.reveal, .lang');
-
-  if (!('IntersectionObserver' in window) || reduced) {
-    revealables.forEach(function (el) { el.classList.add('is-in'); });
-  } else {
-    var revealObserver = new IntersectionObserver(function (entries) {
-      entries.forEach(function (entry) {
-        if (!entry.isIntersecting) return;
-        entry.target.classList.add('is-in');
-        revealObserver.unobserve(entry.target);
-      });
-    }, { rootMargin: '0px 0px -8% 0px', threshold: 0.12 });
-
-    revealables.forEach(function (el) { revealObserver.observe(el); });
-  }
-
-  /* ---------- 5. titoli di sezione con effetto "scramble" ---------- */
-  (function scramble () {
-    var titles = document.querySelectorAll('[data-scramble]');
-    if (!titles.length || reduced || !('IntersectionObserver' in window)) return;
-
-    var pool = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ#/\\<>_';
-
-    function run (el) {
-      var final = el.textContent;
-      var frame = 0;
-      var steps = 14;
-
-      var id = setInterval(function () {
-        frame++;
-        var shown = Math.floor((frame / steps) * final.length);
-        var out = '';
-        for (var i = 0; i < final.length; i++) {
-          if (i < shown || final[i] === ' ') out += final[i];
-          else out += pool[Math.floor(Math.random() * pool.length)];
-        }
-        el.textContent = out;
-        if (frame >= steps) { clearInterval(id); el.textContent = final; }
-      }, 34);
-    }
-
-    var obs = new IntersectionObserver(function (entries) {
-      entries.forEach(function (entry) {
-        if (!entry.isIntersecting) return;
-        run(entry.target);
-        obs.unobserve(entry.target);
-      });
-    }, { threshold: 0.6 });
-
-    titles.forEach(function (t) { obs.observe(t); });
-  })();
-
-  /* ---------- 6. contatori dei dati reali ---------- */
-  (function counters () {
-    var nums = document.querySelectorAll('.count:not([data-plain])');
-    if (!nums.length) return;
-    if (reduced || !('IntersectionObserver' in window)) return;
-
-    var obs = new IntersectionObserver(function (entries) {
-      entries.forEach(function (entry) {
-        if (!entry.isIntersecting) return;
-        var el = entry.target;
-        var target = parseInt(el.dataset.count, 10) || 0;
-        var start = performance.now();
-        var dur = 900;
-
-        (function step (now) {
-          var t = Math.min(1, (now - start) / dur);
-          el.textContent = Math.round(target * (1 - Math.pow(1 - t, 3)));
-          if (t < 1) requestAnimationFrame(step);
-        })(start);
-
-        obs.unobserve(el);
-      });
-    }, { threshold: 1 });
-
-    nums.forEach(function (n) { obs.observe(n); });
-  })();
-
-  /* ---------- 7. filtro competenze ---------- */
-  (function filters () {
-    var chips = document.querySelectorAll('.chip');
-    var skills = document.querySelectorAll('.skill');
-    if (!chips.length) return;
-
-    chips.forEach(function (chip) {
-      chip.addEventListener('click', function () {
-        var filter = chip.dataset.filter;
-
-        chips.forEach(function (c) {
-          var on = c === chip;
-          c.classList.toggle('is-on', on);
-          c.setAttribute('aria-pressed', String(on));
-        });
-
-        skills.forEach(function (card) {
-          var show = filter === 'all' || card.dataset.cat === filter;
-          card.classList.toggle('is-hidden', !show);
-          if (show) card.classList.add('is-in');
-        });
-      });
-    });
-  })();
-
-  /* ---------- 8. bagliore che segue il puntatore nelle card ---------- */
-  if (!isTouch) {
-    document.querySelectorAll('.skill').forEach(function (card) {
-      card.addEventListener('pointermove', function (e) {
-        var r = card.getBoundingClientRect();
-        card.style.setProperty('--mx', (e.clientX - r.left) + 'px');
-        card.style.setProperty('--my', (e.clientY - r.top) + 'px');
-      });
-    });
-  }
-
-  /* ---------- 9. bottoni magnetici ---------- */
-  if (!isTouch && !reduced) {
-    document.querySelectorAll('.magnetic').forEach(function (el) {
-      el.addEventListener('pointermove', function (e) {
-        var r = el.getBoundingClientRect();
-        var dx = (e.clientX - (r.left + r.width / 2)) / r.width;
-        var dy = (e.clientY - (r.top + r.height / 2)) / r.height;
-        el.style.transform = 'translate(' + (dx * 10).toFixed(1) + 'px,' + (dy * 8).toFixed(1) + 'px)';
-      });
-      el.addEventListener('pointerleave', function () { el.style.transform = ''; });
-    });
-  }
-
-  /* ---------- 10a. mirino da disegno tecnico ---------- */
-  if (!isTouch && !reduced) {
-    var cursor = document.getElementById('cursor');
-    var xy = document.getElementById('cursorXY');
-
-    if (cursor) {
-      html.classList.add('has-cursor');
-
-      window.addEventListener('pointermove', function (e) {
-        html.classList.add('cursor-on');
-        cursor.style.setProperty('--cx', e.clientX + 'px');
-        cursor.style.setProperty('--cy', e.clientY + 'px');
-        if (xy) xy.textContent = 'x:' + String(Math.round(e.clientX)).padStart(3, '0') +
-                                 ' y:' + String(Math.round(e.clientY)).padStart(3, '0');
-
-        var hot = e.target.closest && e.target.closest('a,button,.skill,.job,.certs li');
-        html.classList.toggle('cursor-hot', !!hot);
       }, { passive: true });
 
-      window.addEventListener('pointerleave', function () { html.classList.remove('cursor-on'); });
+      loader.addEventListener('click', triggerIntro, { once: true });
+
+      // Fallback automatico dopo 7 secondi
+      setTimeout(triggerIntro, 7000);
     }
+  } else {
+    initReveal();
   }
 
-  /* ---------- 10b. barra di avanzamento, topbar e sezione attiva ---------- */
-  (function scrollUI () {
-    var bar = document.getElementById('progressBar');
-    var topbar = document.getElementById('topbar');
-    var heroEl = document.getElementById('hero');
-    var links = document.querySelectorAll('.topbar__nav a');
-    var sections = [];
+  /* ---- 2. SCROLL REVEAL ottimizzato ---- */
+  function initReveal() {
+    var elements = document.querySelectorAll('.reveal');
+    if (!elements.length) return;
 
-    links.forEach(function (a) {
-      var s = document.querySelector(a.getAttribute('href'));
-      if (s) sections.push({ link: a, el: s });
+    // Usa requestAnimationFrame + IntersectionObserver per zero jank
+    var observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting) return;
+
+        var el = entry.target;
+        var delay = parseFloat(el.getAttribute('data-delay') || 0);
+
+        if (delay > 0) {
+          setTimeout(function () { showEl(el); }, delay * 1000);
+        } else {
+          // Usa rAF per sincronizzarsi col frame del browser — nessun salto
+          requestAnimationFrame(function () { showEl(el); });
+        }
+
+        observer.unobserve(el);
+      });
+    }, {
+      threshold: 0.08,
+      rootMargin: '0px 0px -40px 0px'
     });
 
-    var ticking = false;
+    elements.forEach(function (el) { observer.observe(el); });
+  }
 
-    function update () {
-      ticking = false;
+  function showEl(el) {
+    requestAnimationFrame(function () {
+      el.classList.add('is-visible');
 
-      var max = document.documentElement.scrollHeight - window.innerHeight;
-      if (bar) bar.style.width = (max > 0 ? (window.scrollY / max) * 100 : 0) + '%';
-
-      if (topbar && heroEl) {
-        var limit = heroEl.offsetHeight - topbar.offsetHeight - 40;
-        topbar.classList.toggle('is-light', window.scrollY > limit);
-        heroEl.classList.toggle('is-scrolling', window.scrollY > 12);
+      // Scramble effect solo sui titoli (data-scramble)
+      if (el.hasAttribute('data-scramble')) {
+        scramble(el);
+        el.removeAttribute('data-scramble');
       }
+    });
+  }
 
-      var current = null;
-      sections.forEach(function (s) {
-        if (s.el.getBoundingClientRect().top <= window.innerHeight * 0.35) current = s;
-      });
-      sections.forEach(function (s) {
-        s.link.classList.toggle('is-active', s === current);
-        s.el.classList.toggle('is-current', s === current);
-      });
+  /* ---- 3. TEXT SCRAMBLE (rAF-based, no setInterval) ---- */
+  function scramble(el) {
+    var chars   = '!<>-_\\/[]{}=+*^?#~';
+    var original = el.innerText;
+    var totalFrames = 22;
+    var frame   = 0;
+
+    function tick() {
+      var out = '';
+      for (var i = 0; i < original.length; i++) {
+        var ch = original[i];
+        if (ch === ' ' || ch === '\n') {
+          out += ch;
+        } else if (frame >= totalFrames || Math.random() < frame / totalFrames) {
+          out += ch;
+        } else {
+          out += chars[Math.floor(Math.random() * chars.length)];
+        }
+      }
+      el.innerText = out;
+      frame++;
+      if (frame <= totalFrames) requestAnimationFrame(tick);
     }
 
-    window.addEventListener('scroll', function () {
-      if (!ticking) { ticking = true; requestAnimationFrame(update); }
-    }, { passive: true });
+    requestAnimationFrame(tick);
+  }
 
-    window.addEventListener('resize', update);
-    update();
-  })();
-
-  /* ---------- anno nel footer ---------- */
-  (function mobileAccordions () {
-    function init () {
-      var sections = document.querySelectorAll('.section:not(.contact)');
-      if (!sections.length) return;
-
-      sections.forEach(function (section, index) {
-        var heading = section.querySelector('.shead');
-        if (!heading || heading.querySelector('.section-toggle')) return;
-
-        var toggle = document.createElement('button');
-        toggle.className = 'section-toggle';
-        toggle.type = 'button';
-        toggle.setAttribute('aria-expanded', index === 0 ? 'true' : 'false');
-        toggle.setAttribute('aria-label', 'Apri o chiudi la sezione ' + heading.querySelector('.shead__title').textContent);
-        toggle.innerHTML = '<span></span><span></span>';
-        heading.appendChild(toggle);
-        section.classList.toggle('is-open', index === 0);
-
-        toggle.addEventListener('click', function () {
-          var open = section.classList.toggle('is-open');
-          toggle.setAttribute('aria-expanded', String(open));
-        });
-      });
-    }
-
-    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
-    else init();
-  })();
-
-  window.addEventListener('scroll', function () {
-    var hero = document.getElementById('hero');
-    if (hero) hero.classList.toggle('is-scrolling', window.scrollY > 12);
-  }, { passive: true });
-  window.setInterval(function () {
-    var hero = document.getElementById('hero');
-    if (hero) hero.classList.toggle('is-scrolling', window.scrollY > 12);
-  }, 50);
-
-  var year = document.getElementById('year');
-  if (year) year.textContent = new Date().getFullYear();
 })();
